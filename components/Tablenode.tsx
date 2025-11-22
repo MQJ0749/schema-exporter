@@ -12,7 +12,7 @@ export default function TableNode({ data }) {
       </div>
 
       <div className="p-3">
-        {table.columns.map((col, idx) => (
+        {table.columns.map((col) => (
           <div key={col.name} className="relative flex justify-between py-1 border-b last:border-b-0">
             
             {/* Left handle = incoming FK */}

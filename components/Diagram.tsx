@@ -1,50 +1,75 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ReactFlow, { Background, Controls, MiniMap } from "reactflow";
 import "reactflow/dist/style.css";
 import TableNode from "./Tablenode";
+import { applyDagreLayout } from "@/app/layout";
 
-const nodeTypes = {
-  tableNode: TableNode,
-};
+
+const nodeTypes = { tableNode: TableNode };
 
 export default function Diagram({ schema }) {
   const { tables, relations } = schema;
 
-  // Simple grid layout (you can replace with Dagre later)
-  const nodes = tables.map((t, i) => ({
+  const [layoutNodes, setLayoutNodes] = useState(null);
+
+  // Step 1: initial nodes with no positions
+  const rawNodes = tables.map((t) => ({
     id: t.name,
     type: "tableNode",
-    position: { x: (i % 3) * 400, y: Math.floor(i / 3) * 350 },
+    position: { x: 0, y: 0 },
     data: { table: t },
   }));
 
-  // COLUMN → COLUMN edges
-  const edges = relations.map((r, i) => ({
+  const rawEdges = relations.map((r, i) => ({
+    id: `edge-${i}`,
+    source: r.sourceTable,
+    target: r.targetTable,
+    animated: true,
+    type: "smoothstep",
+    style: { strokeWidth: 2 },
+  }));
+
+    const edges = relations.map((r, i) => ({
     id: `edge-${i}`,
     source: r.sourceTable,
     sourceHandle: `${r.sourceColumn}-out`,
     target: r.targetTable,
     targetHandle: `${r.targetColumn}-in`,
     animated: true,
-    type: "smoothstep",
+    type: "relation",
+    data: {
+      label: `${r.sourceTable}.${r.sourceColumn} → ${r.targetTable}.${r.targetColumn}`,
+    },
     style: { strokeWidth: 2 },
   }));
+
+
+  // Step 2: wait for nodes to render, then run Dagre with real heights
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      const positioned = applyDagreLayout(rawNodes, rawEdges, "TB"); // TB = vertical layout
+      setLayoutNodes(positioned);
+    });
+  }, []);
+
+  if (!layoutNodes) {
+    return <div>Loading layout…</div>;
+  }
 
   return (
     <div className="w-full h-[85vh] border rounded-md">
       <ReactFlow
-        nodes={nodes}
-        edges={edges}
+        nodes={layoutNodes}
+        edges={rawEdges}
         nodeTypes={nodeTypes}
         fitView
       >
         <Background />
         <Controls />
-        {/* <MiniMap /> */}
+        <MiniMap />
       </ReactFlow>
     </div>
   );
 }
-
-
