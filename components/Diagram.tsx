@@ -78,7 +78,7 @@ if (!layoutNodes) {
       >
         <Background />
         <Controls />
-        <MiniMap />
+        {/* <MiniMap /> */}
       </ReactFlow>
     </div>
   );
