@@ -20,4 +20,5 @@ export type Relation = {
 export type SchemaResponse = {
   tables: Table[];
   relations: Relation[];
+  message: string
 };

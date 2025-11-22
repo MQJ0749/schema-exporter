@@ -10,76 +10,89 @@ import { applyDagreLayout } from "@/app/layout";
 const nodeTypes = { tableNode: TableNode };
 
 export default function Diagram({ schema }) {
-  const { tables, relations } = schema;
+  const { tables, relations , message } = schema;
 
-  const [layoutNodes, setLayoutNodes] = useState(null);
+  if(message === 'CLIENT_NOT_CONNECTED'){
+     return (
+        <div className="mt-4 p-3 bg-red-900/40 border border-red-700 text-red-300 rounded-lg">
+    <strong>Error:</strong> 
+       "Unable to connect. Check your database URL. An unexpected error occurred."
+  </div>
+     )
+  }
+  else{
+      const [layoutNodes, setLayoutNodes] = useState(null);
 
-  // Step 1: initial nodes with no positions
-  const rawNodes = tables.map((t) => ({
-    id: t.name,
-    type: "tableNode",
-    position: { x: 0, y: 0 },
-    data: { table: t },
-  }));
+      // Step 1: initial nodes with no positions
+      const rawNodes = tables.map((t) => ({
+        id: t.name,
+        type: "tableNode",
+        position: { x: 0, y: 0 },
+        data: { table: t },
+      }));
 
-  const rawEdges = relations.map((r, i) => ({
-    id: `edge-${i}`,
-    source: r.sourceTable,
-    target: r.targetTable,
-    animated: true,
-    type: "smoothstep",
-    style: { strokeWidth: 2 },
-  }));
+      const rawEdges = relations.map((r, i) => ({
+        id: `edge-${i}`,
+        source: r.sourceTable,
+        target: r.targetTable,
+        animated: true,
+        type: "smoothstep",
+        style: { strokeWidth: 2 },
+      }));
 
-    const edges = relations.map((r, i) => ({
-    id: `edge-${i}`,
-    source: r.sourceTable,
-    sourceHandle: `${r.sourceColumn}-out`,
-    target: r.targetTable,
-    targetHandle: `${r.targetColumn}-in`,
-    animated: true,
-    type: "relation",
-    data: {
-      label: `${r.sourceTable}.${r.sourceColumn} → ${r.targetTable}.${r.targetColumn}`,
-    },
-    style: { strokeWidth: 2 },
-  }));
-
-
-  // Step 2: wait for nodes to render, then run Dagre with real heights
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      const positioned = applyDagreLayout(rawNodes, rawEdges, "TB"); // TB = vertical layout
-      setLayoutNodes(positioned);
-    });
-  }, []);
-
-if (!layoutNodes) {
-  return (
-    <div className="flex flex-col items-center justify-center h-[70vh] text-gray-300">
-      <div className="flex gap-2 mb-3">
-        <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
-        <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
-        <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:0.4s]"></div>
-      </div>
-      <p className="text-sm text-gray-400">Preparing layout…</p>
-    </div>
-  );
-}
+        const edges = relations.map((r, i) => ({
+        id: `edge-${i}`,
+        source: r.sourceTable,
+        sourceHandle: `${r.sourceColumn}-out`,
+        target: r.targetTable,
+        targetHandle: `${r.targetColumn}-in`,
+        animated: true,
+        type: "relation",
+        data: {
+          label: `${r.sourceTable}.${r.sourceColumn} → ${r.targetTable}.${r.targetColumn}`,
+        },
+        style: { strokeWidth: 2 },
+      }));
 
 
-  return (
-    <div className="w-full h-[85vh] border rounded-md">
-      <ReactFlow
-        nodes={layoutNodes}
-        edges={rawEdges}
-        nodeTypes={nodeTypes}
-        fitView
-      >
-        <Background />
-        <Controls />
-        {/* <MiniMap /> */}
-      </ReactFlow>
-    </div>
-  );
+      // Step 2: wait for nodes to render, then run Dagre with real heights
+      useEffect(() => {
+        requestAnimationFrame(() => {
+          const positioned = applyDagreLayout(rawNodes, rawEdges, "TB"); // TB = vertical layout
+          setLayoutNodes(positioned);
+        });
+      }, []);
+
+    if (!layoutNodes) {
+      return (
+        <div className="flex flex-col items-center justify-center h-[70vh] text-gray-300">
+          <div className="flex gap-2 mb-3">
+            <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
+            <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+            <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+          </div>
+          <p className="text-sm text-gray-400">Preparing layout…</p>
+        </div>
+      );
+    }
+
+
+      return (
+        <div className="w-full h-[85vh] border rounded-md">
+          <ReactFlow
+            nodes={layoutNodes}
+            edges={rawEdges}
+            nodeTypes={nodeTypes}
+            fitView
+          >
+            <Background />
+            <Controls />
+            {/* <MiniMap /> */}
+          </ReactFlow>
+        </div>
+      );
+
+  }
+
+
 }
