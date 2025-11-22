@@ -54,9 +54,19 @@ export default function Diagram({ schema }) {
     });
   }, []);
 
-  if (!layoutNodes) {
-    return <div>Loading layout…</div>;
-  }
+if (!layoutNodes) {
+  return (
+    <div className="flex flex-col items-center justify-center h-[70vh] text-gray-300">
+      <div className="flex gap-2 mb-3">
+        <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
+        <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+        <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+      </div>
+      <p className="text-sm text-gray-400">Preparing layout…</p>
+    </div>
+  );
+}
+
 
   return (
     <div className="w-full h-[85vh] border rounded-md">
