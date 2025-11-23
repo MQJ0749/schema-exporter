@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ReactFlow, { Background, Controls } from "reactflow";
+import ReactFlow, { Background, Controls,MiniMap } from "reactflow";
 import "reactflow/dist/style.css";
 import TableNode from "./Tablenode";
 import { applyDagreLayout } from "@/app/layout";
@@ -13,6 +13,7 @@ export default function Diagram({ schema }) {
 
   const [selectedEdge, setSelectedEdge] = useState(null);
   const [layoutNodes, setLayoutNodes] = useState(null);
+  const [showMiniMap, setShowMiniMap] = useState(true)
 
   // Build edges with column handles
   const edges = relations.map((r, i) => ({
@@ -80,6 +81,17 @@ export default function Diagram({ schema }) {
 
   return (
     <div className="w-full h-[85vh] border rounded-md">
+            <button
+        onClick={() => setShowMiniMap((s) => !s)}
+        className="
+          fixed bottom-4 right-4 z-50 
+          bg-gray-800 text-white px-3 py-2 rounded-full shadow-lg 
+          hover:bg-gray-700 transition 
+        "
+      >
+        {showMiniMap ? "Hide Map" : "Show Map"}
+      </button>
+
       <ReactFlow
         nodes={layoutNodes.map((node) => {
           const isConnected =
@@ -109,6 +121,23 @@ export default function Diagram({ schema }) {
       >
         <Background />
         <Controls />
+        {showMiniMap && (
+          <MiniMap
+            pannable
+            zoomable={false}
+            className="transition-all duration-300"
+            nodeStrokeColor={(node) =>
+              node.style?.border?.includes("3px") ? "#3b82f6" : "#666"
+            }
+            nodeColor={(node) =>
+              node.style?.opacity === 0.25 ? "#333" : "#3b82f6"
+            }
+            nodeBorderRadius={6}
+          />
+        )}
+
+
+
       </ReactFlow>
     </div>
   );
