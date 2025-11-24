@@ -30,6 +30,13 @@ export default function Navbar() {
         >
           PostgreSQL
         </Link>
+
+        <Link
+          href="/mongo-schema-view"
+          className="text-gray-300 hover:text-white transition text-sm font-medium"
+        >
+          MongoDB
+        </Link>
       </div>
     </nav>
   );

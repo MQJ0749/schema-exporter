@@ -82,6 +82,32 @@ export default function Home() {
             </p>
           </motion.div>
 
+          {/* MongoDB */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => router.push("/mongo-schema-view")}
+            className="
+              cursor-pointer bg-[#1a1a1a] border border-gray-700 
+              rounded-xl p-6 shadow-lg hover:shadow-green-500/30 
+              transition-all
+            "
+          >
+            <div className="flex items-center gap-4">
+              <Image
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                alt="MongoDB Icon"
+                width={48}
+                height={48}
+              />
+              <h2 className="text-xl font-semibold">MongoDB</h2>
+            </div>
+            <p className="text-gray-400 mt-3 text-sm">
+              Visualize collections, fields, references, and embedded documents.
+            </p>
+          </motion.div>
+
+
           {/* MySQL (Coming Soon) */}
           <motion.div
             className="bg-[#1a1a1a] border border-gray-700 rounded-xl p-6 shadow-lg opacity-40 cursor-not-allowed"
@@ -89,17 +115,6 @@ export default function Home() {
             <div className="flex items-center gap-4">
               <Database size={48} className="text-gray-500" />
               <h2 className="text-xl font-semibold">MySQL</h2>
-            </div>
-            <p className="text-gray-500 mt-3 text-sm">Coming soon</p>
-          </motion.div>
-
-          {/* MongoDB (Coming Soon) */}
-          <motion.div
-            className="bg-[#1a1a1a] border border-gray-700 rounded-xl p-6 shadow-lg opacity-40 cursor-not-allowed"
-          >
-            <div className="flex items-center gap-4">
-              <Database size={48} className="text-gray-500" />
-              <h2 className="text-xl font-semibold">MongoDB</h2>
             </div>
             <p className="text-gray-500 mt-3 text-sm">Coming soon</p>
           </motion.div>

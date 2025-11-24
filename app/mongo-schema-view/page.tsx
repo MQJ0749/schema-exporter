@@ -17,7 +17,7 @@ export default function SchemaView() {
     try {
       const res = await fetch("/api/schema", {
         method: "POST",
-        body: JSON.stringify({ connectionString: conn, connectionType:  'POSTGRES' }),
+        body: JSON.stringify({ connectionString: conn, connectionType: 'MONGO_DB' }),
       });
 
       const data = await res.json();
@@ -37,7 +37,7 @@ export default function SchemaView() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        PostgreSQL Schema Viewer
+        MongoDB Schema Viewer
       </motion.h1>
 
       {/* Card */}
@@ -47,13 +47,13 @@ export default function SchemaView() {
         animate={{ opacity: 1, scale: 1 }}
       >
         <label className="block text-gray-400 mb-2 text-sm">
-          Enter PostgreSQL connection URL
+          Enter MongoDB connection URL
         </label>
 
         <input
           value={conn}
           onChange={(e) => setConn(e.target.value)}
-          placeholder="postgres://user:pass@host:5432/dbname"
+          placeholder="mongodb://user:pass@host:27017/dbname"
           className="
             w-full p-3 rounded-lg bg-black border border-gray-700 
             text-gray-100 placeholder-gray-500 focus:ring-2 
@@ -102,7 +102,7 @@ export default function SchemaView() {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                a.download = "mongo_schema.json";
+                a.download = "postgres_schema.json";
                 a.click();
               }}
               className="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 font-semibold"
