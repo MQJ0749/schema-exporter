@@ -2,6 +2,7 @@ import { Client } from "pg";
 
 export async function getPgClient(connectionString: string) {
 
+  // todo
   try {
     const client = new Client({ connectionString });
     await client.connect();
