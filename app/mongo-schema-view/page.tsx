@@ -81,7 +81,7 @@ export default function SchemaView() {
         </button>
       </motion.div>
 
-               {schema && (
+      {schema && (
         <div className="max-w-6xl mx-auto mt-8 flex items-center justify-between">
 
 

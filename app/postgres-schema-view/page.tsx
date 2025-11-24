@@ -17,7 +17,7 @@ export default function SchemaView() {
     try {
       const res = await fetch("/api/schema", {
         method: "POST",
-        body: JSON.stringify({ connectionString: conn, connectionType:  'POSTGRES' }),
+        body: JSON.stringify({ connectionString: conn, connectionType: 'POSTGRES' }),
       });
 
       const data = await res.json();
@@ -81,7 +81,7 @@ export default function SchemaView() {
         </button>
       </motion.div>
 
-               {schema && (
+      {schema && (
         <div className="max-w-6xl mx-auto mt-8 flex items-center justify-between">
 
 

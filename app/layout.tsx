@@ -41,7 +41,7 @@ export function applyDagreLayout(nodes, edges, direction = "LR") {
 
     // real measured size
     const height = (el?.offsetHeight ?? 0) > 0 ? el?.offsetHeight : 700;
-    const width  = (el?.offsetWidth  ?? 0) > 0 ? el?.offsetWidth  : 600;
+    const width = (el?.offsetWidth ?? 0) > 0 ? el?.offsetWidth : 600;
 
 
     g.setNode(node.id, { height, width });

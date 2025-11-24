@@ -7,20 +7,20 @@ export async function fetchMongoSchema(connectionString: string) {
 
     await client.connect();
 
-    console.log("Client connected",client)
+    console.log("Client connected", client)
 
     function getDbNameFromUri(uri: string) {
-        return uri.split("/").pop().split("?")[0];
-        }
+      return uri.split("/").pop().split("?")[0];
+    }
 
     const dbName = getDbNameFromUri(connectionString);
     const db = client.db(dbName);
     const collections = await db.listCollections().toArray();
 
-    console.log("collections",collections)
+    console.log("collections", collections)
 
     const tables = [];
-    const relations:any = [];
+    const relations: any = [];
 
     for (const col of collections) {
       const collection = db.collection(col.name);
@@ -54,15 +54,18 @@ export async function fetchMongoSchema(connectionString: string) {
 
     await client.close();
     const returningData = {
-        tables, relations,message: "CLIENT_CONNECTED" }
-    
+      tables, relations, message: "CLIENT_CONNECTED"
+    }
+
     console.log(returningData)
     return returningData;
 
   } catch (err) {
     console.error(err);
-    return {     tables: [],
-    relations: [],message: "CLIENT_NOT_CONNECTED" };
+    return {
+      tables: [],
+      relations: [], message: "CLIENT_NOT_CONNECTED"
+    };
   }
 }
 

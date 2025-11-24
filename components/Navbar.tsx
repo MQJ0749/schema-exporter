@@ -6,7 +6,7 @@ import { Database } from "lucide-react";
 export default function Navbar() {
   return (
     <nav className="w-full h-16 bg-[#0f0f0f]/80 backdrop-blur-md border-b border-gray-800 flex items-center px-6">
-      
+
       {/* LEFT: Logo */}
       <Link href="/" className="flex items-center gap-2 group">
         <Database className="text-blue-500 group-hover:text-blue-400 transition" size={24} />

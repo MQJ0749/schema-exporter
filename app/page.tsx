@@ -60,7 +60,7 @@ export default function Home() {
 
         {/* Database cards */}
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6">
-          
+
           {/* PostgreSQL */}
           <motion.div
             whileHover={{ scale: 1.05 }}

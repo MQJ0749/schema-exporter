@@ -5,12 +5,12 @@ export async function fetchSchema(connectionString: string): Promise<SchemaRespo
   console.log("In Fetching Schema")
   const client = await getPgClient(connectionString);
 
-  if(!client || client === 'CLIENT_NOT_CONNECTED' ){
+  if (!client || client === 'CLIENT_NOT_CONNECTED') {
     return {
-    tables: [],
-    relations: [],
-    message: 'CLIENT_NOT_CONNECTED'
-  };
+      tables: [],
+      relations: [],
+      message: 'CLIENT_NOT_CONNECTED'
+    };
   }
 
   const tablesRes = await client.query(`
@@ -19,7 +19,7 @@ export async function fetchSchema(connectionString: string): Promise<SchemaRespo
     WHERE table_schema = 'public';
   `);
 
-  console.log("Tables",tablesRes)
+  console.log("Tables", tablesRes)
 
   const tables = [];
 
